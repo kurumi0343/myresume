@@ -5,35 +5,20 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
+// Serve static assets (CSS, JS, images)
 app.use(express.static(__dirname));
 
+// Serve the SPA
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "home.html"));
+  res.sendFile(path.join(__dirname, "main.html"));
 });
 
-app.get("/projects", (req, res) => {
-  res.sendFile(path.join(__dirname, "projects.html"));
-});
-
-app.get("/certificates", (req, res) => {
-  res.sendFile(path.join(__dirname, "certificates.html"));
-});
-
-app.get("/resume", (req, res) => {
-  res.sendFile(path.join(__dirname, "resume.html"));
-});
-
-app.get("/home", (req, res) => {
-  res.sendFile(path.join(__dirname, "home.html"));
-});
-
+// ===== PROJECTS API =====
 app.get("/api/projects", (req, res) => {
   const projectsDir = path.join(__dirname, "projects");
   const projects = [];
 
-  fs.readdirSync(projectsDir, {
-    withFileTypes: true
-  }).forEach(dir => {
+  fs.readdirSync(projectsDir, { withFileTypes: true }).forEach(dir => {
     if (!dir.isDirectory()) return;
 
     const projectPath = path.join(projectsDir, dir.name);
@@ -45,26 +30,19 @@ app.get("/api/projects", (req, res) => {
 
     if (fs.existsSync(infoPath)) {
       const info = JSON.parse(fs.readFileSync(infoPath, "utf-8"));
-
       description = info.description || "";
       projectLink = info["project-link"] || "#";
 
-      if (info["img-preview"]) {
-        preview = info["img-preview"];
-      }
+      if (info["img-preview"]) preview = info["img-preview"];
     }
 
-    projects.push({
-      name: dir.name,
-      preview,
-      description,
-      link: projectLink
-    });
+    projects.push({ name: dir.name, preview, description, link: projectLink });
   });
 
   res.json(projects);
 });
 
+// ===== CERTIFICATES API =====
 app.get("/api/certificates", (req, res) => {
   const certsDir = path.join(__dirname, "certificates");
   const certs = [];
@@ -81,7 +59,7 @@ app.get("/api/certificates", (req, res) => {
   res.json(certs);
 });
 
-
+// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });
