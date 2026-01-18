@@ -5,15 +5,12 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
-// Serve static assets (CSS, JS, images)
 app.use(express.static(__dirname));
 
-// Serve the SPA
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "main.html"));
 });
 
-// ===== PROJECTS API =====
 app.get("/api/projects", (req, res) => {
   const projectsDir = path.join(__dirname, "projects");
   const projects = [];
@@ -42,7 +39,6 @@ app.get("/api/projects", (req, res) => {
   res.json(projects);
 });
 
-// ===== CERTIFICATES API =====
 app.get("/api/certificates", (req, res) => {
   const certsDir = path.join(__dirname, "certificates");
   const certs = [];
@@ -59,7 +55,11 @@ app.get("/api/certificates", (req, res) => {
   res.json(certs);
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
+});
+
+app.get('/.well-known/discord', (req, res) => {
+  res.type('text/plain');        // Discord expects plain text
+  res.send('dh=b8c5cd42ffdd9d14338f2ddfde276e434ac0b9ca');
 });
