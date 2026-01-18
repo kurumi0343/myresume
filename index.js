@@ -11,6 +11,22 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "home.html"));
 });
 
+app.get("/projects", (req, res) => {
+  res.sendFile(path.join(__dirname, "projects.html"));
+});
+
+app.get("/certificates", (req, res) => {
+  res.sendFile(path.join(__dirname, "certificates.html"));
+});
+
+app.get("/resume", (req, res) => {
+  res.sendFile(path.join(__dirname, "resume.html"));
+});
+
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "home.html"));
+});
+
 app.get("/api/projects", (req, res) => {
   const projectsDir = path.join(__dirname, "projects");
   const projects = [];
