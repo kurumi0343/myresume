@@ -5,10 +5,8 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
-// Serve static files
 app.use(express.static(__dirname));
 
-// ✅ Default route to home.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "home.html"));
 });
@@ -27,8 +25,6 @@ app.get("/api/projects", (req, res) => {
 
     let description = "";
     let projectLink = "#";
-
-    // default local preview
     let preview = `/projects/${dir.name}/preview.png`;
 
     if (fs.existsSync(infoPath)) {
@@ -37,7 +33,6 @@ app.get("/api/projects", (req, res) => {
       description = info.description || "";
       projectLink = info["project-link"] || "#";
 
-      // ✅ use web image if provided
       if (info["img-preview"]) {
         preview = info["img-preview"];
       }
