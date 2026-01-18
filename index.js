@@ -58,8 +58,3 @@ app.get("/api/certificates", (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });
-
-app.get('/.well-known/discord', (req, res) => {
-  res.type('text/plain');        // Discord expects plain text
-  res.send('dh=b8c5cd42ffdd9d14338f2ddfde276e434ac0b9ca');
-});
