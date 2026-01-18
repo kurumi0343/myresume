@@ -88,15 +88,14 @@ async function loadPage(page) {
   }
 }
 
-// Setup navigation
+
 navLinks.forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
     const page = link.dataset.page;
     loadPage(page);
-    history.replaceState(null, "", "/"); // keeps URL clean
+    history.replaceState(null, "", "/");
   });
 });
 
-// Load home by default
 loadPage("home");
