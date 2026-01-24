@@ -93,9 +93,26 @@ navLinks.forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
     const page = link.dataset.page;
+
+    setCookie("currentPage", page); // ✅ save SPA state
     loadPage(page);
+
     history.replaceState(null, "", "/");
   });
 });
 
-loadPage("home");
+function setCookie(name, value, days = 7) {
+  const d = new Date();
+  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value}; expires=${d.toUTCString()}; path=/`;
+}
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : null;
+}
+
+
+const savedPage = getCookie("currentPage") || "home";
+loadPage(savedPage);
+
